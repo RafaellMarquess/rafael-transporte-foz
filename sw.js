@@ -4,9 +4,9 @@
    código). Só usa a cópia guardada se estiver sem internet.
    Dados do Supabase e bibliotecas externas NUNCA são guardados aqui.
    ========================================================================== */
-const VERSAO = 'v1';
+const VERSAO = 'v2';
 const CACHE = 'app-shell-' + VERSAO;
-const BASICO = ['./', 'index.html', 'admin.html', 'css.css', 'admin.css', 'js.js', 'admin.js', 'i18n.js', 'fundos.css', 'fundos.js'];
+const BASICO = ['./', 'vendor/supabase.js', 'vendor/sweetalert2.all.min.js', 'vendor/particles.min.js', 'index.html', 'admin.html', 'css.css', 'admin.css', 'js.js', 'admin.js', 'i18n.js', 'fundos.css', 'fundos.js'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(

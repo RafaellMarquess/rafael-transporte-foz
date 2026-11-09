@@ -110,3 +110,6 @@ A chave pública (`sb_publishable_...`) aparece no código do site e qualquer pe
 - Se usar outro serviço externo (outro CDN, mapa, vídeo), acrescente o endereço dele na regra correspondente.
 - A CSP libera scripts inline (o site usa `onclick`), então ela limita DE ONDE vêm scripts e para onde os dados
   podem ser enviados, mas não impede script inline. Os textos vindos do banco já são escapados no código.
+
+## Bibliotecas hospedadas no próprio site (`vendor/`)
+Supabase JS, SweetAlert2 e particles.js ficam na pasta `vendor/` (sem CDN, então não há risco de a CDN ser alterada e o aviso "missing-integrity" some). Ao copiar o site para um cliente, leve a pasta `vendor/` junto. Font Awesome e Google Fonts ainda vêm de CDN.
