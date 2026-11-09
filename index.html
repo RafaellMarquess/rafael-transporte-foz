@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===== POR CLIENTE: edite title, description, canonical e as linhas og: (nome, URL, imagem) ===== -->
+  <title>Rafael Moura Marques - Motorista Particular & Transfers</title>
+
+  <meta name="description" content="Transfers e passeios privativos em Foz do Iguaçu: aeroporto, Cataratas, Itaipu, Ciudad del Este e Puerto Iguazú. Simule o valor e agende pelo WhatsApp.">
+  <link rel="canonical" href="https://rafael-transporte-foz.netlify.app/">
+
+  <!-- Prévia ao compartilhar (WhatsApp, Facebook, etc.) -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:url" content="https://rafael-transporte-foz.netlify.app/">
+  <meta property="og:title" content="Rafael Moura Marques - Transfer em Foz do Iguaçu">
+  <meta property="og:description" content="Motorista particular para aeroporto, Cataratas, Itaipu, Paraguai e Argentina. Simule o valor e agende pelo WhatsApp.">
+  <meta property="og:image" content="https://rafael-transporte-foz.netlify.app/fotos/cataratas.jpeg">
+  <meta property="og:image:alt" content="Cataratas do Iguaçu">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- App instalável (PWA): POR CLIENTE, ajuste o nome em manifest.webmanifest e apple-mobile-web-app-title -->
+  <meta name="theme-color" content="#0c0f14">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icones/site-apple-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Transfers">
+
+  <!-- Fontes e ícones -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  >
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css.css">
+  <link rel="stylesheet" href="fundos.css">
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+  <!-- Fundo da página: "particles-js" é o efeito de partículas; "fundoAnimado" recebe os outros estilos (escolhidos no painel) -->
+  <div id="particles-js"></div>
+  <div id="fundoAnimado" class="fundo" aria-hidden="true" style="display: none;"></div>
+
+  <!-- Aviso do topo (controlado pelo painel admin) -->
+  <div id="avisoTopo" class="aviso-topo" style="display: none;" role="status">
+    <i class="fa-solid fa-bullhorn"></i>
+    <span id="avisoTopoTexto"></span>
+  </div>
+
+  <!-- Cabeçalho principal -->
+  <header class="header-card" id="inicio">
+
+    <div class="idioma-seletor" id="idiomaSeletor">
+      <button type="button" class="idioma-atual" id="idiomaAtual" aria-expanded="false" aria-controls="idiomaOpcoes" aria-label="Idioma">
+        <span class="idioma-bandeira" aria-hidden="true">🇧🇷</span>
+        <span class="idioma-codigo">PT</span>
+        <i class="fa-solid fa-chevron-right idioma-seta" aria-hidden="true"></i>
+      </button>
+      <div class="idioma-opcoes" id="idiomaOpcoes" role="group" aria-label="Idioma"></div>
+    </div>
+
+    <div class="badge-status" id="badgeStatus">
+      <span class="dot"></span>
+      <span id="badgeStatusTexto">Disponível para Agendamentos</span>
+    </div>
+
+    <h1 class="driver-name" id="driverName">Motorista Particular</h1>
+
+    <p class="driver-subtitle" id="driverSubtitle">
+      Transfers e passeios
+    </p>
+
+    <div class="flags-pills">
+      <span>🇧🇷 Foz do Iguaçu</span>
+      <span>🇵🇾 Ciudad del Este</span>
+      <span>🇦🇷 Puerto Iguazú</span>
+    </div>
+
+    <a
+      id="btnWhatsappTopo"
+      href="#"
+      class="btn-whatsapp"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <i class="fa-brands fa-whatsapp fa-xl"></i>
+      Solicitar Corrida / Transfer
+    </a>
+
+  </header>
+
+  <!-- Identificação do motorista -->
+  <div class="btn-driver-info" onclick="abrirModal()">
+
+    <div class="driver-info-left">
+
+      <div class="avatar-icon">
+        <i class="fa-solid fa-id-card"></i>
+      </div>
+
+      <div class="driver-info-text">
+
+        <div class="driver-info-title">
+          Dados do Veículo e Motorista
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <div class="driver-info-sub">
+          Identificação verificada & Segurança
+        </div>
+
+      </div>
+
+    </div>
+
+    <i
+      class="fa-solid fa-chevron-right"
+      style="color: var(--text-muted); font-size: 0.9rem;"
+    ></i>
+
+  </div>
+
+  <!-- Destinos e passeios -->
+  <section class="compact-destinations-section">
+
+    <div class="section-header">
+
+      <h2 class="section-title">
+        <i class="fa-solid fa-compass title-icon"></i>
+        Principais Destinos & Passeios
+      </h2>
+
+      <div class="title-divider"></div>
+
+      <p class="section-subtitle">
+        Consulte o valor do seu transporte em apenas um clique ou use a lupa abaixo 🔍
+      </p>
+
+    </div>
+
+    <div class="compact-list" id="listaDestinosPrincipal">
+      <!-- Preenchido dinamicamente via JS -->
+    </div>
+
+  </section>
+
+  <!-- Calculadora de tarifas -->
+  <section class="calculator-card" id="calculadora">
+
+    <h2 class="section-title">
+      <i class="fa-solid fa-calculator"></i>
+      Simular Valor da Corrida
+    </h2>
+
+    <p class="section-desc">
+      Selecione o destino para calcular uma estimativa rápida:
+    </p>
+
+    <div class="form-group">
+
+      <label for="routeSelect">
+        Selecione o Trajeto / Destino:
+      </label>
+
+<select id="routeSelect" onchange="verificarDestino()">
+  <option value="100">Aeroporto (IGU) ↔ Hotel / Centro</option>
+  <option value="180">Compras em Ciudad del Este (Paraguai)</option>
+  <option value="130">Cataratas do Iguaçu (Lado Brasileiro)</option>
+  <option value="120">Parque das Aves</option>
+  <option value="95">Usina Hidrelétrica de Itaipu</option>
+  <option value="95">Templo Budista Chen Yen</option>
+  <option value="90">Marco das Três Fronteiras</option>
+  <option value="80">Complexo Dreamland (Museu de Cera)</option>
+  <option value="175">Feirinha de Puerto Iguazú &amp; Gastronomia</option>
+</select>
+
+    </div>
+
+    <!-- Aviso de viagens internacionais -->
+    <div
+      id="alertaInternacional"
+      class="alerta-fronteira"
+      style="display: none;"
+    >
+
+      <div class="alerta-conteudo">
+
+        <i class="fa-solid fa-triangle-exclamation"></i>
+
+        <div>
+
+          <strong>
+            Aviso de Tolerância e Horário na Fronteira:
+          </strong>
+
+          <p>
+            Para viagens com destino ao Paraguai ou Argentina, caso haja
+            descumprimento do horário de retorno agendado sem aviso prévio,
+            será cobrada uma taxa de
+            <strong>R$ 50,00 por hora adicional de espera</strong>
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="form-group">
+
+      <label for="tripType">
+        Tipo de Viagem:
+      </label>
+
+      <select id="tripType">
+        <option value="1">Apenas Ida (Leve até o local)</option>
+        <option value="2">Ida e Volta (Com Desconto - Fico aguardando o retorno)</option>
+      </select>
+
+    </div>
+
+    <!-- Dados do agendamento (enviados na mensagem do WhatsApp) -->
+    <div class="form-row">
+
+      <div class="form-group">
+
+        <label for="tripDate">
+          Data:
+        </label>
+
+        <input type="date" id="tripDate">
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="tripTime">
+          Horário:
+        </label>
+
+        <input type="time" id="tripTime">
+
+      </div>
+
+    </div>
+
+    <div class="form-group">
+
+      <label for="passengers">
+        Número de Passageiros:
+      </label>
+
+      <select id="passengers">
+        <option value="1">1 passageiro</option>
+        <option value="2">2 passageiros</option>
+        <option value="3">3 passageiros</option>
+        <option value="4">4 passageiros</option>
+      </select>
+
+    </div>
+
+    <div class="form-group">
+
+      <label for="pickupLocation">
+        Local de Embarque:
+      </label>
+
+      <input
+        type="text"
+        id="pickupLocation"
+        placeholder="Ex.: Hotel, aeroporto ou endereço"
+        autocomplete="off"
+      >
+
+    </div>
+
+    <div id="avisoAgenda" class="aviso-agenda" style="display: none;" role="alert"></div>
+
+    <div class="price-display">
+
+      <span>Valor Estimado:</span>
+
+      <h3 id="estimatedPrice">R$ 80,00</h3>
+
+    </div>
+
+    <a
+      id="btnSendQuote"
+      href="#"
+      class="btn-secondary-whatsapp"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <i class="fa-brands fa-whatsapp"></i>
+      Agendar este Trajeto
+    </a>
+
+  </section>
+
+  <!-- Conforto e veículo -->
+  <section class="comfort-vehicle-section">
+
+    <div class="section-header">
+
+      <h2 class="section-title">
+        <i class="fa-solid fa-car-side title-icon"></i>
+        Conforto & Veículo
+      </h2>
+
+      <div class="title-divider"></div>
+
+      <p class="section-subtitle">
+        Viagem executiva privativa com total praticidade e comodidade
+      </p>
+
+    </div>
+
+    <div class="features-grid">
+
+      <div class="feature-card highlight-card">
+
+        <div class="card-icon-wrapper">
+          <i class="fa-solid fa-users"></i>
+        </div>
+
+        <h4 id="capacidadeTitulo">Até 4 Pessoas</h4>
+
+        <p>
+          Espaço privativo ideal para famílias e grupos com total conforto.
+        </p>
+
+      </div>
+
+      <div class="feature-card">
+
+        <div class="card-icon-wrapper">
+          <i class="fa-solid fa-snowflake"></i>
+        </div>
+
+        <h4>Ar-Condicionado</h4>
+
+        <p>
+          Ambiente sempre climatizado para o calor da região.
+        </p>
+
+      </div>
+
+      <div class="feature-card">
+
+        <div class="card-icon-wrapper">
+          <i class="fa-solid fa-suitcase-rolling"></i>
+        </div>
+
+        <h4>Porta-Malas Amplo</h4>
+
+        <p>
+          Espaço perfeito para bagagens e compras no PY.
+        </p>
+
+      </div>
+
+      <div class="feature-card">
+
+        <div class="card-icon-wrapper">
+          <i class="fa-solid fa-charging-station"></i>
+        </div>
+
+        <h4>Carregador USB</h4>
+
+        <p>
+          Cabos disponíveis para Android e iPhone.
+        </p>
+
+      </div>
+
+      <div class="feature-card">
+
+        <div class="card-icon-wrapper">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+
+        <h4>Viagem Segura</h4>
+
+        <p>
+          Direção defensiva, veículo revisado e pontualidade.
+        </p>
+
+      </div>
+
+      <div class="feature-card">
+
+        <div class="card-icon-wrapper">
+          <i class="fa-solid fa-clock"></i>
+        </div>
+
+        <h4>Horários Flexíveis</h4>
+
+        <p>
+          Embarque no seu ritmo e sem a pressa das excursões.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Perguntas frequentes -->
+  <section>
+
+    <h2 class="section-title">
+      <i class="fa-solid fa-circle-question"></i>
+      Perguntas Frequentes
+    </h2>
+
+    <div class="faq-container" id="faqLista">
+
+      <details>
+        <summary>
+          Quais formas de pagamento são aceitas?
+        </summary>
+
+        <p>
+          Aceito Pix e cartões de débito/crédito com praticidade no momento
+          do atendimento.
+        </p>
+      </details>
+
+      <details>
+        <summary>
+          Atende viagens para Paraguai e Argentina?
+        </summary>
+
+        <p>
+          Sim! Faço o transporte para compras em CDE e passeios na Feirinha
+          de Puerto Iguazú.
+        </p>
+      </details>
+
+      <details>
+        <summary>
+          Como funciona a espera no aeroporto?
+        </summary>
+
+        <p>
+          Acompanho o status do seu voo para garantir recepção sem atrasos
+          no desembarque.
+        </p>
+      </details>
+
+    </div>
+
+  </section>
+
+  <!-- Galeria de fotos -->
+  <section class="gallery-section" id="galeria">
+
+    <div class="section-header">
+
+      <h2 class="section-title">
+        <i class="fa-solid fa-images title-icon"></i>
+        Galeria de Fotos
+      </h2>
+
+      <div class="title-divider"></div>
+
+      <p class="section-subtitle">
+        Um pouco dos passeios e do dia a dia dos transfers
+      </p>
+
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid"></div>
+
+    <!-- Botão Carregar Mais -->
+    <div style="text-align: center; margin-top: 25px;">
+      <button id="btnCarregarMais" class="btn-whatsapp" style="display: none; margin: 0 auto; width: auto; padding: 12px 24px;" onclick="carregarMaisFotos()">
+        <i class="fa-solid fa-plus"></i> Ver mais fotos
+      </button>
+    </div>
+
+  </section>
+
+  <!-- Avaliações (editáveis no painel: aba Conteúdo) -->
+  <section id="avaliacoes" style="margin: 50px auto; max-width: 1200px; padding: 0 15px;">
+
+    <h2 class="section-title">
+      <i class="fa-solid fa-star"></i>
+      O que dizem os passageiros
+    </h2>
+
+    <div class="testimonials-container" id="depoimentosLista"></div>
+
+  </section>
+
+  <!-- Comentários e avaliações do Disqus (só aparece se houver disqusShortname no site-config.js) -->
+  <section id="secaoComentarios" style="display: none; margin: 60px auto; max-width: 900px; padding: 0 20px;">
+
+    <h2 class="section-title">
+      <i class="fa-solid fa-comments"></i>
+      Deixe seu comentário ou avaliação
+    </h2>
+
+    <p
+      style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; text-align: center;"
+    >
+      Deixe sua opinião, elogio ou sugestão abaixo!
+    </p>
+
+    <div id="disqus_thread"></div>
+
+  </section>
+
+  <!-- Rodapé -->
+  <footer>
+
+    <p id="footerCopy" style="touch-action: manipulation; -webkit-user-select: none; user-select: none;">
+      ©
+    </p>
+
+  </footer>
+
+  <!-- Barra de navegação de vidro (Inferior) -->
+  <nav class="glass-nav" id="glassNav" aria-label="Navegação principal">
+
+    <a href="#inicio" class="nav-item active" data-target="inicio">
+      <i class="fa-solid fa-house"></i>
+      <span>Início</span>
+    </a>
+
+    <a href="javascript:void(0)" class="nav-item" onclick="abrirModalBusca()">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <span>Buscar</span>
+    </a>
+
+    <a href="#galeria" class="nav-item" data-target="galeria">
+      <i class="fa-solid fa-images"></i>
+      <span>Galeria</span>
+    </a>
+
+    <a href="#avaliacoes" class="nav-item" data-target="avaliacoes">
+      <i class="fa-solid fa-star"></i>
+      <span>Avaliações</span>
+    </a>
+
+  </nav>
+
+  <!-- Modal da Lupa / Pesquisa de Pontos Turísticos -->
+  <div id="searchModalOverlay" class="search-modal-overlay">
+    <div class="search-modal-container">
+      <div class="search-modal-header">
+        <h3><i class="fa-solid fa-magnifying-glass"></i> Buscar Ponto Turístico</h3>
+        <button class="search-modal-close" onclick="fecharModalBusca()">&times;</button>
+      </div>
+      <div class="search-input-wrapper">
+        <input type="text" id="searchInput" placeholder="Digite (ex: Cataratas, Templo, Itaipu)..." oninput="filtrarPontosTuristicos()">
+      </div>
+      <div class="search-results-list" id="searchResultsList">
+        <!-- Lista gerada via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Detalhado do Ponto Turístico Selecionado -->
+  <div id="touristDetailModal" class="tourist-detail-modal">
+    <div class="tourist-detail-content" id="touristDetailContent">
+      <!-- Injetado dinamicamente via JS -->
+    </div>
+  </div>
+
+  <!-- Modal para ampliar fotos -->
+  <div
+    id="photoModal"
+    class="photo-modal"
+    onclick="fecharFoto()"
+  >
+
+    <span class="photo-close">&times;</span>
+
+    <img
+      id="photoModalImage"
+      src=""
+      alt="Foto ampliada"
+      onclick="event.stopPropagation()"
+    >
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+  <!-- Biblioteca do Supabase (ESTAVA FALTANDO: sem ela o site nunca lia os destinos/avisos da nuvem) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="site-config.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="fundos.js"></script>
+  <script src="i18n.js"></script>
+  <script src="js.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+    }
+  </script>
+
+
+</body>
+
+</html>

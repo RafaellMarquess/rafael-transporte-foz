@@ -1,0 +1,2137 @@
+/* ==========================================================================
+   01. FUNDO DE PARTÍCULAS
+   ========================================================================== */
+#particles-js {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background-color: #0b111e;
+}
+
+
+/* ==========================================================================
+   02. VARIÁVEIS (:root)
+   ========================================================================== */
+:root {
+  --bg-main: #0c0f14;
+  --bg-card: #151921;
+  --bg-card-hover: #1c222d;
+  --accent-green: #25d366;
+  --accent-green-hover: #1eae53;
+  --accent-blue: #3b82f6;
+  --accent-gold: #f59e0b;
+  --text-white: #ffffff;
+  --text-muted: #9ca3af;
+  --border-color: #262c3a;
+  --radius: 16px;
+}
+
+
+/* ==========================================================================
+   03. RESET E BASE
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-white);
+  line-height: 1.6;
+  padding: 20px 16px 40px 16px;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* Ativa o efeito de rolagem suave em toda a página */
+html {
+  scroll-behavior: smooth;
+}
+
+
+/* ==========================================================================
+   04. HEADER (CARD DO MOTORISTA) - com a borda destacada
+   ========================================================================== */
+.header-card {
+  background: linear-gradient(145deg, #181d28, #11141c);
+  border: 2px solid rgba(59, 130, 246, 0.4);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+              0 0 15px rgba(59, 130, 246, 0.15);
+}
+
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(37, 211, 102, 0.15);
+  color: var(--accent-green);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  border: 1px solid rgba(37, 211, 102, 0.3);
+}
+
+.badge-status .dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-green);
+}
+
+.driver-name {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+
+.driver-subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+}
+
+.flags-pills {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.flags-pills span {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+/* ==========================================================================
+   05. BOTÕES
+   ========================================================================== */
+
+/* --- Botão principal do WhatsApp --- */
+.btn-whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background-color: var(--accent-green);
+  color: #000;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+}
+
+.btn-whatsapp:hover {
+  background-color: var(--accent-green-hover);
+  transform: translateY(-2px);
+}
+
+/* --- Botão secundário do WhatsApp --- */
+.btn-secondary-whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: rgba(37, 211, 102, 0.15);
+  color: var(--accent-green);
+  border: 1px solid var(--accent-green);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary-whatsapp:hover {
+  background-color: var(--accent-green);
+  color: #000;
+}
+
+/* --- Botão VIP Motorista com efeito Shimmer --- */
+.btn-driver-info {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #1a2234 0%, #121622 100%);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-driver-info:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+}
+
+.btn-driver-info::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  transform: rotate(30deg);
+  animation: shimmer 4s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) rotate(30deg);
+  }
+
+  20% {
+    transform: translateX(100%) rotate(30deg);
+  }
+
+  100% {
+    transform: translateX(100%) rotate(30deg);
+  }
+}
+
+.driver-info-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar-icon {
+  width: 44px;
+  height: 44px;
+  background-color: rgba(59, 130, 246, 0.15);
+  border: 1px solid var(--accent-blue);
+  color: var(--accent-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.driver-info-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-white);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.driver-info-title i {
+  color: var(--accent-blue);
+  font-size: 0.8rem;
+}
+
+.driver-info-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+
+/* ==========================================================================
+   06. TÍTULOS DE SEÇÃO
+   ========================================================================== */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title i {
+  color: var(--accent-blue);
+}
+
+.section-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+
+/* ==========================================================================
+   07. CALCULADORA DE TARIFAS
+   ========================================================================== */
+
+/* Ajusta o ponto onde a tela para ao clicar no botão, evitando que fique colado ou coberto */
+#calculadora {
+  scroll-margin-top: 30px;
+}
+
+.calculator-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 28px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  background-color: #0d1017;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  color: var(--text-white);
+  font-size: 0.88rem;
+  outline: none;
+}
+
+.form-group select:focus {
+  border-color: var(--accent-blue);
+}
+
+/* Campos de data, horário e local de embarque */
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  background-color: #0d1017;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  color: var(--text-white);
+  font-size: 0.88rem;
+  outline: none;
+  color-scheme: dark;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  display: block;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: left;
+}
+
+/* iPhone: impede que data/horário estourem a largura da coluna */
+.form-group input[type="date"],
+.form-group input[type="time"] {
+  -webkit-min-logical-width: calc(100% - 16px);
+}
+
+.form-group input::-webkit-date-and-time-value {
+  text-align: left;
+  min-height: 1.2em;
+}
+
+.form-group input::placeholder {
+  color: var(--text-muted);
+}
+
+.form-group input:focus {
+  border-color: var(--accent-blue);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.price-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px dashed rgba(59, 130, 246, 0.3);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.price-display span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.price-display h3 {
+  font-size: 1.3rem;
+  color: var(--accent-green);
+  font-weight: 800;
+}
+
+
+/* ==========================================================================
+   08. GRID DE TARIFAS FIXAS
+   ========================================================================== */
+.pricing-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.price-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.price-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.price-header h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.price-tag {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: var(--accent-blue);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.price-card p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+
+/* ==========================================================================
+   09. DIFERENCIAIS DO VEÍCULO
+   ========================================================================== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.feature-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+}
+
+.feature-card i {
+  font-size: 1.5rem;
+  color: var(--accent-blue);
+  margin-bottom: 8px;
+}
+
+.feature-card h4 {
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.feature-card p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* --- Acabamento da seção "Conforto & Veículo" --- */
+.comfort-vehicle-section {
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.section-header .section-title {
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.title-divider {
+  width: 48px;
+  height: 3px;
+  margin: 0 auto 10px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+}
+
+.section-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.card-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.card-icon-wrapper i {
+  margin-bottom: 0;
+}
+
+.highlight-card {
+  border-color: rgba(37, 211, 102, 0.4);
+  background: rgba(37, 211, 102, 0.06);
+}
+
+.highlight-card .card-icon-wrapper {
+  background: rgba(37, 211, 102, 0.15);
+  border-color: rgba(37, 211, 102, 0.3);
+}
+
+.highlight-card .card-icon-wrapper i {
+  color: var(--accent-green);
+}
+
+
+/* ==========================================================================
+   10. BANNER DE RESERVA ANTECIPADA
+   ========================================================================== */
+.banner-booking {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.15),
+    rgba(0, 0, 0, 0.2)
+  );
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.banner-booking i {
+  color: var(--accent-gold);
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.banner-booking h4 {
+  font-size: 0.95rem;
+  color: var(--accent-gold);
+  margin-bottom: 4px;
+}
+
+.banner-booking p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+
+/* ==========================================================================
+   11. CAPACIDADE DO VEÍCULO (DARK MODE)
+   ========================================================================== */
+.vehicle-capacity-section {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.capacity-card {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+  border: 1px solid rgba(212, 175, 55, 0.25); /* Borda dourada discreta */
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+}
+
+.capacity-icon {
+  background: rgba(37, 211, 102, 0.15);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: #25d366;
+  flex-shrink: 0;
+  border: 1px solid rgba(37, 211, 102, 0.3);
+}
+
+.capacity-info h3 {
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+  color: #f8fafc;
+}
+
+.capacity-info p {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+/* Responsivo para celular */
+@media (max-width: 600px) {
+  .capacity-card {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+
+/* ==========================================================================
+   12. LISTA COMPACTA DE DESTINOS (DARK MODE)
+   ========================================================================== */
+.compact-destinations-section {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+.compact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.compact-card {
+  background: rgba(30, 41, 59, 0.85); /* Fundo escuro */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+
+.compact-card:hover {
+  background: rgba(30, 41, 59, 0.98);
+  border-color: rgba(212, 175, 55, 0.5); /* Borda destaca em dourado ao passar o mouse */
+  transform: translateY(-2px);
+}
+
+.thumb-wrapper {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.thumb-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.compact-info {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.compact-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.compact-header h3 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #f8fafc; /* Texto do título em branco */
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compact-badge {
+  background: rgba(212, 175, 55, 0.15);
+  color: #eab308; /* Tag em tom de ouro */
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.compact-info p {
+  font-size: 0.82rem;
+  color: #94a3b8; /* Descrição em cinza claro */
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compact-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: #25d366; 
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.compact-btn:hover {
+  background: #25d366;
+  color: #ffffff;
+  border-color: #25d366;
+}
+
+/* Otimização para celulares */
+@media (max-width: 520px) {
+  .compact-card {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .compact-info p {
+    display: none;
+  }
+
+  .compact-btn span {
+    display: none;
+  }
+
+  .compact-btn {
+    padding: 8px 10px;
+  }
+}
+
+
+/* ==========================================================================
+   13. FAQ
+   ========================================================================== */
+.faq-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+details {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+summary {
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::after {
+  content: '+';
+  font-size: 1.1rem;
+  color: var(--accent-blue);
+}
+
+details[open] summary::after {
+  content: '−';
+}
+
+details p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+
+/* ==========================================================================
+   14. DEPOIMENTOS
+   ========================================================================== */
+.testimonials-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.testimonial-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.stars {
+  color: var(--accent-gold);
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+}
+
+.testimonial-card p {
+  font-size: 0.85rem;
+  color: #e2e8f0;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.testimonial-author {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+
+/* ==========================================================================
+   15. RODAPÉ
+   ========================================================================== */
+footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
+
+/* ==========================================================================
+   16. MODAL DO MOTORISTA
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-content {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  max-width: 440px;
+  width: 100%;
+  padding: 24px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.modal-close:hover {
+  color: var(--text-white);
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  font-size: 1.2rem;
+  color: var(--text-white);
+}
+
+.modal-photos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.photo-card {
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: #0d1017;
+  text-align: center;
+}
+
+.photo-card img {
+  display: block;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.photo-card span {
+  display: block;
+  padding: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-item i {
+  color: var(--accent-blue);
+  font-size: 1.1rem;
+  width: 24px;
+  text-align: center;
+}
+
+.info-item div strong {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-white);
+}
+
+.info-item div span {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Responsivo para telas pequenas */
+@media (max-width: 400px) {
+  .modal-content {
+    padding: 18px;
+  }
+
+  .photo-card img {
+    height: 125px;
+  }
+
+  .flags-pills {
+    flex-wrap: wrap;
+  }
+}
+
+
+/* ==========================================================================
+   17. POP-UP DA FOTO
+   ========================================================================== */
+.clickable-photo {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.clickable-photo:hover {
+  transform: scale(1.03);
+}
+
+.photo-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 2000;
+  cursor: pointer;
+}
+
+.photo-modal.active {
+  display: flex;
+}
+
+.photo-modal img {
+  max-width: 95%;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.photo-close {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  color: white;
+  font-size: 2.5rem;
+  cursor: pointer;
+  z-index: 2001;
+}
+
+/* --- Bloco repetido (mantido como no original, pois sobrescreve o anterior) --- */
+.clickable-photo {
+  cursor: pointer;
+}
+
+.photo-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.9);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.photo-modal.active {
+  display: flex;
+}
+
+.photo-modal img {
+  max-width: 90%;
+  max-height: 85vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 14px;
+}
+
+.photo-close {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+  z-index: 10000;
+}
+
+
+/* ==========================================================================
+   18. SWEETALERT DO MOTORISTA E ANIMAÇÕES
+   ========================================================================== */
+.driver-swal-popup {
+  border: 1px solid #262c3a;
+  border-radius: 16px;
+}
+
+.driver-swal-popup .modal-photos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.driver-swal-popup .photo-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  cursor: zoom-in;
+  transition: transform 0.2s ease;
+}
+
+.driver-swal-popup .photo-card img:hover {
+  transform: scale(1.03);
+}
+
+.driver-swal-popup .info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.driver-swal-popup .info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.driver-swal-popup .info-item i {
+  color: #3b82f6;
+  width: 24px;
+  text-align: center;
+}
+
+.driver-swal-popup .info-item strong,
+.driver-swal-popup .info-item span {
+  display: block;
+}
+
+.driver-swal-popup .info-item strong {
+  font-size: 13px;
+}
+
+.driver-swal-popup .info-item span {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+/* --- Animações de entrada e saída do pop-up --- */
+.popup-entrada {
+  animation: entradaPopup 0.4s ease-out;
+}
+
+.popup-saida {
+  animation: saidaPopup 0.25s ease-in forwards;
+}
+
+@keyframes entradaPopup {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes saidaPopup {
+  to {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+}
+
+
+/* ==========================================================================
+   19. ALERTA DE FRONTEIRA E TAXA DE ESPERA (AMARELO)
+   ========================================================================== */
+.alerta-fronteira {
+  background: rgba(245, 158, 11, 0.15) !important;
+  border: 1px solid #f59e0b !important;
+  border-left: 5px solid #f59e0b !important;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 15px 0;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.alerta-conteudo {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.alerta-conteudo i {
+  color: #f59e0b;
+  font-size: 1.3rem;
+  margin-top: 2px;
+}
+
+.alerta-conteudo strong {
+  color: #fef3c7;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.alerta-conteudo p {
+  color: #cbd5e1;
+  font-size: 0.83rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   20. BARRA DE NAVEGAÇÃO DE VIDRO (INFERIOR)
+   ========================================================================== */
+body {
+  padding-bottom: 120px;
+}
+
+#inicio,
+#calculadora,
+#galeria,
+#avaliacoes {
+  scroll-margin-top: 20px;
+}
+
+.glass-nav {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  width: min(calc(100% - 32px), 440px);
+  display: flex;
+  gap: 4px;
+  padding: 6px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.07);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  z-index: 900;
+}
+
+/* Brilho verde suave embaixo da barra */
+.glass-nav::after {
+  content: '';
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: -26px;
+  height: 36px;
+  background: radial-gradient(ellipse at center, rgba(37, 211, 102, 0.45), transparent 70%);
+  filter: blur(10px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 4px;
+  border-radius: 24px;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.72rem;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.25s ease;
+}
+
+.nav-item i {
+  font-size: 1.15rem;
+}
+
+.nav-item:hover {
+  color: var(--text-white);
+}
+
+.nav-item.active {
+  color: var(--text-white);
+}
+
+.nav-item.active i {
+  color: var(--accent-green);
+}
+
+
+/* ==========================================================================
+   21. GALERIA DE FOTOS
+   ========================================================================== */
+.gallery-section {
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--bg-card);
+  aspect-ratio: 1 / 1;
+  cursor: zoom-in;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* A primeira foto ocupa a largura toda */
+.gallery-item:first-child {
+  grid-column: span 2;
+  aspect-ratio: 16 / 9;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.gallery-item figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 22px 12px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+}
+
+.gallery-empty {
+  grid-column: span 2;
+  text-align: center;
+  padding: 28px 12px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border: 1px dashed var(--border-color);
+  border-radius: 14px;
+}
+
+/* Se sobrar uma foto sozinha na última linha, ela ocupa a largura toda */
+.gallery-item:last-child:nth-child(even) {
+  grid-column: span 2;
+  aspect-ratio: 16 / 9;
+}
+
+.gallery-item:last-child:nth-child(even) img {
+  object-position: center 28%;
+}
+
+/* Estilização do Botão Ver Mais da Galeria */
+#containerBtnCarregarMais {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  width: 100%;
+}
+
+#btnCarregarMais {
+  background: rgba(37, 99, 235, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #ffffff;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#btnCarregarMais:hover {
+  background: rgba(37, 99, 235, 0.35);
+  border-color: rgba(56, 189, 248, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.25);
+}
+
+#btnCarregarMais:active {
+  transform: translateY(0);
+}
+
+#btnCarregarMais i {
+  color: #38bdf8;
+  font-size: 0.9rem;
+}
+
+
+/* Pílula de vidro que desliza entre os botões */
+.nav-pill {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  height: calc(100% - 12px);
+  width: 0;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 12px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.nav-pill.pronto {
+  opacity: 1;
+  transition:
+    transform 0.55s cubic-bezier(0.34, 1.45, 0.64, 1),
+    width 0.55s cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-pill.pronto { transition: none; }
+}
+
+
+/* ==========================================================================
+   22. ANIMAÇÕES E REALCES
+   ========================================================================== */
+
+/* --- Aparecer ao rolar (só quando o JS está ligado e o movimento é permitido) --- */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+
+  .reveal.visivel {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.6s ease var(--d, 0ms),
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms);
+  }
+}
+
+/* --- Preço: pulinho quando o valor muda --- */
+.preco-pop {
+  animation: precoPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes precoPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* --- FAQ: texto aparece suave e o "+" gira --- */
+details[open] p {
+  animation: faqFade 0.4s ease;
+}
+
+summary::after {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+details[open] summary::after {
+  transform: rotate(180deg);
+}
+
+@keyframes faqFade {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --- Galeria: brilho de carregamento + entrada em cascata --- */
+.gallery-item img {
+  transition: transform 0.35s ease, opacity 0.5s ease;
+}
+
+.gallery-item.carregando img {
+  opacity: 0;
+}
+
+.gallery-item.carregando::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(110deg, #151921 30%, rgba(59, 130, 246, 0.18) 50%, #151921 70%);
+  background-size: 200% 100%;
+  animation: skeleton 1.3s linear infinite;
+}
+
+@keyframes skeleton {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+.gallery-item.entrando {
+  animation: galeriaEntra 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 80ms);
+}
+
+@keyframes galeriaEntra {
+  from { opacity: 0; transform: translateY(18px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --- Foto ampliada: fundo suave, zoom e deslize entre fotos --- */
+.photo-modal.active {
+  animation: modalFundo 0.25s ease;
+}
+
+.photo-modal.active img {
+  animation: modalZoom 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.photo-modal img.slide-prox {
+  animation: slideProx 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.photo-modal img.slide-ant {
+  animation: slideAnt 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes modalFundo { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modalZoom  { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: none; } }
+@keyframes slideProx  { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
+@keyframes slideAnt   { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: none; } }
+
+.photo-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  z-index: 10000;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.photo-prev { left: 12px; }
+.photo-next { right: 12px; }
+
+.photo-nav:active { background: rgba(37, 211, 102, 0.3); }
+
+.photo-counter {
+  display: none;
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 10000;
+}
+
+/* --- Pulsos discretos (WhatsApp e ponto verde "Disponível") --- */
+@media (prefers-reduced-motion: no-preference) {
+  .header-card .btn-whatsapp {
+    animation: pulsoWpp 3.4s ease-out infinite;
+  }
+
+  .badge-status .dot {
+    animation: pulsoDot 2s ease-out infinite;
+  }
+}
+
+@keyframes pulsoWpp {
+  0%   { box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3), 0 0 0 0 rgba(37, 211, 102, 0.45); }
+  70%, 100% { box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3), 0 0 0 16px rgba(37, 211, 102, 0); }
+}
+
+@keyframes pulsoDot {
+  0%   { box-shadow: 0 0 8px var(--accent-green), 0 0 0 0 rgba(37, 211, 102, 0.6); }
+  70%, 100% { box-shadow: 0 0 8px var(--accent-green), 0 0 0 9px rgba(37, 211, 102, 0); }
+}
+
+/* --- Toque: o botão afunda um pouquinho + onda de luz --- */
+.btn-whatsapp,
+.btn-secondary-whatsapp,
+.compact-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-whatsapp:active,
+.btn-secondary-whatsapp:active,
+.btn-driver-info:active {
+  transform: scale(0.97);
+}
+
+.compact-card:active {
+  transform: scale(0.985);
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: scale(0);
+  background: rgba(59, 130, 246, 0.3);
+  animation: rippleOnda 0.6s ease-out forwards;
+}
+
+.btn-whatsapp .ripple { background: rgba(255, 255, 255, 0.4); }
+.btn-secondary-whatsapp .ripple { background: rgba(37, 211, 102, 0.35); }
+
+@keyframes rippleOnda {
+  to { transform: scale(1); opacity: 0; }
+}
+
+/* --- Barra de vidro: some ao rolar para baixo, volta ao subir --- */
+.glass-nav {
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.glass-nav.escondida {
+  transform: translateX(-50%) translateY(170%);
+}
+
+/* --- Aviso do topo (painel admin) --- */
+.aviso-topo {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid #f59e0b;
+  border-left: 5px solid #f59e0b;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fef3c7;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.aviso-topo i {
+  color: #f59e0b;
+  margin-top: 3px;
+}
+
+/* Botão "Ver todos os destinos" */
+.btn-ver-todos {
+  margin-top: 4px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.btn-ver-todos:hover {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+/* ==========================================================================
+   LUPA DE PESQUISA E MODAIS DE DESTINOS VIP
+   ========================================================================== */
+
+/* Botão flutuante da lupa no canto superior direito */
+.top-search-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 45px;
+  height: 45px;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-blue);
+  font-size: 1.1rem;
+  cursor: pointer;
+  z-index: 950;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+
+.top-search-btn:hover {
+  background: var(--accent-blue);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+/* Overlay da Modal de Busca */
+.search-modal-overlay, .tourist-detail-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2500;
+  padding: 16px;
+}
+
+.search-modal-overlay.active, .tourist-detail-modal.active {
+  display: flex;
+}
+
+.search-modal-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  padding: 20px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+  animation: entradaPopup 0.3s ease-out;
+}
+
+.search-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.search-modal-header h3 {
+  font-size: 1.1rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-modal-header h3 i {
+  color: var(--accent-blue);
+}
+
+.search-modal-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.search-modal-close:hover {
+  color: #fff;
+}
+
+.search-input-wrapper input {
+  width: 100%;
+  padding: 12px 16px;
+  background: #0d1017;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.search-input-wrapper input:focus {
+  border-color: var(--accent-blue);
+}
+
+.search-results-list {
+  margin-top: 15px;
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.search-result-item:hover {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.search-result-item img {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.search-result-info h4 {
+  font-size: 0.9rem;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.search-result-info span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Modal Detalhado do Ponto Turístico com Fundo de Imagem */
+.tourist-detail-content {
+  background: #151921;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  animation: entradaPopup 0.3s ease-out;
+}
+
+.tourist-hero-bg {
+  position: relative;
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.tourist-hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.2));
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.tourist-hero-title {
+  position: relative;
+  z-index: 2;
+}
+
+.tourist-hero-title h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.tourist-hero-title span {
+  font-size: 0.85rem;
+  color: var(--accent-green);
+  font-weight: 600;
+  background: rgba(37, 211, 102, 0.15);
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.tourist-detail-body {
+  padding: 20px;
+}
+
+.tourist-section-block {
+  margin-bottom: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 14px;
+  border-radius: 12px;
+}
+
+.tourist-section-block h4 {
+  font-size: 0.9rem;
+  color: var(--accent-blue);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tourist-section-block p {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.tourist-modal-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Agenda fechada / data indisponível --- */
+.badge-status.fechada {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.badge-status.fechada .dot {
+  background-color: #f87171;
+  box-shadow: 0 0 8px #f87171;
+  animation: none;
+}
+
+.aviso-agenda {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fecaca;
+}
+
+.btn-secondary-whatsapp.desabilitado {
+  opacity: 0.45;
+  pointer-events: none;
+  filter: grayscale(0.6);
+}
+
+
+/* --- "Ver todos os destinos": cards novos entram em cascata, seta gira --- */
+.compact-card.destino-entra {
+  animation: destinoEntra 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+@keyframes destinoEntra {
+  from { opacity: 0; transform: translateY(22px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+.btn-ver-todos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-ver-todos .seta {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn-ver-todos.aberto .seta {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .compact-card.destino-entra { animation: none; }
+  .btn-ver-todos .seta { transition: none; }
+}
+
+
+/* ==========================================================================
+   SELETOR DE IDIOMA
+   Fechado: botão pequeno no canto superior esquerdo do cartão do topo.
+   Aberto: estica até o canto direito, ocupando a largura toda do cartão.
+   ========================================================================== */
+.header-card {
+  position: relative;
+  padding-top: 68px;
+}
+
+.idioma-seletor {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  display: flex;
+  flex-direction: row;              /* botão atual fica na esquerda; as opções crescem para a direita */
+  align-items: center;
+  width: 92px;
+  padding: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+  transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.idioma-seletor.aberto {
+  width: calc(100% - 20px);
+}
+
+.idioma-atual,
+.idioma-opcoes button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.idioma-atual {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 86px;
+  padding: 0;
+  background: var(--accent-blue);
+  color: #fff;
+}
+
+.idioma-seta {
+  font-size: 0.7rem;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.idioma-seletor.aberto .idioma-seta {
+  transform: rotate(180deg);
+}
+
+.idioma-opcoes {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  gap: 4px;
+  margin-left: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0s linear 0.4s;
+}
+
+.idioma-seletor.aberto .idioma-opcoes {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease 0.12s, visibility 0s;
+}
+
+.idioma-opcoes button {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0 8px;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--text-main, #fff);
+  transition: background 0.2s ease;
+}
+
+.idioma-opcoes button:hover,
+.idioma-opcoes button:active {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.idioma-atual:focus-visible,
+.idioma-opcoes button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: -3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .idioma-seletor,
+  .idioma-opcoes,
+  .idioma-seletor.aberto .idioma-opcoes,
+  .idioma-seta {
+    transition: none;
+  }
+}

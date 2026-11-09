@@ -1,0 +1,5 @@
+-- SÓ PARA O SITE DO RAFAEL: devolve os 3 depoimentos que antes estavam fixos no HTML.
+-- Rode uma vez no SQL Editor do Supabase. Depois eles ficam editáveis na aba Conteúdo.
+insert into public.site_data (id, content, updated_at)
+values ('depoimentos', $json$[{"texto": "Gostaríamos de agradecer de coração ao Rafael pela viagem maravilhosa a Puerto Iguazu! Ele foi extremamente atencioso, simpático e prestativo durante todo o trajeto. Além de nos tratar com muito carinho e gentileza, nos ajudou em tudo o que precisamos e fez muito mais do que sua obrigação, sempre com boa vontade e dedicação. É muito bom encontrar pessoas que fazem a diferença não apenas pelo profissionalismo, mas também pela humanidade e pelo cuidado com o próximo.", "autor": "Vinicius, Maiara, Ramon e Mariana • Bananal - SP"}, {"texto": "Ótimo atendimento! Pontual no aeroporto e veículo muito limpo e confortável.", "autor": "Carlos M. • São Paulo"}, {"texto": "Nos levou com total segurança para as compras em Ciudad del Este. Recomendo muito!", "autor": "Fernanda R. • Curitiba"}]$json$::jsonb, now())
+on conflict (id) do update set content = excluded.content, updated_at = now();

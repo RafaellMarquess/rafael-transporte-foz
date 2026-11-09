@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0c0f14">
+
+  <!-- App instalável (PWA) -->
+  <link rel="manifest" href="admin.webmanifest">
+  <link rel="apple-touch-icon" href="icones/admin-apple-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Painel">
+
+  <title>Painel Administrativo</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="css.css">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="fundos.css">
+</head>
+
+<body>
+
+  <!-- Tela de login -->
+  <section id="viewLogin" class="glass-card hidden">
+    <h1 class="section-title"><i class="fa-solid fa-lock"></i> Área do administrador</h1>
+
+    <form id="formLogin">
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" autocomplete="username" required>
+      </div>
+
+      <div class="field">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" autocomplete="current-password" required>
+      </div>
+
+      <button type="submit" class="btn-main" id="btnEntrar">Entrar</button>
+      <div class="msg" id="msgLogin" role="status"></div>
+    </form>
+  </section>
+
+  <!-- Painel Principal -->
+  <section id="viewPainel" class="hidden">
+
+    <div class="admin-top">
+      <h1><i class="fa-solid fa-gauge-high"></i> Painel Admin</h1>
+      <div class="admin-top-botoes">
+        <a href="index.html" class="link-btn" target="_blank" rel="noopener">Ver site</a>
+        <button type="button" class="link-btn" id="btnSair">Sair</button>
+      </div>
+    </div>
+
+    <!-- Convite para instalar o painel como app (só aparece quando faz sentido) -->
+    <div class="cartao-instalar hidden" id="cartaoInstalar" role="region" aria-label="Instalar o painel como app">
+      <i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i>
+      <div class="cartao-instalar-texto">
+        <strong>Instale o painel no celular</strong>
+        <span id="instalarDica">Abre como um app, direto da tela inicial.</span>
+      </div>
+      <button type="button" class="btn-ok" id="btnInstalar">Instalar</button>
+      <button type="button" class="btn-icone" id="btnFecharInstalar" aria-label="Dispensar"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Navegação inferior (fácil de alcançar com o polegar) -->
+    <nav class="admin-tabs" role="tablist" aria-label="Seções do painel">
+      <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab="tabPedidos">
+        <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i><span>Pedidos</span>
+        <b class="tab-badge hidden" id="badgePedidos" aria-label="pedidos novos">0</b>
+      </button>
+      <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="tabAgenda">
+        <i class="fa-solid fa-calendar-check" aria-hidden="true"></i><span>Agenda</span>
+      </button>
+      <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="tabDestinos">
+        <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i><span>Destinos</span>
+      </button>
+      <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="tabFaq">
+        <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i><span>Conteúdo</span>
+      </button>
+      <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="tabGaleria">
+        <i class="fa-solid fa-images" aria-hidden="true"></i><span>Fotos</span>
+      </button>
+      <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="tabConfig">
+        <i class="fa-solid fa-id-card" aria-hidden="true"></i><span>Perfil</span>
+      </button>
+    </nav>
+
+    <!-- ============ 1. PEDIDOS ============ -->
+    <div id="tabPedidos" class="admin-tab-content active" role="tabpanel">
+      <div class="stat-grid" id="resumoPedidos" aria-live="polite"></div>
+
+      <div class="glass-card">
+        <div class="card-head">
+          <h2 class="section-title"><i class="fa-solid fa-clipboard-list"></i> Pedidos</h2>
+          <button type="button" class="btn-sec" id="btnAtualizarPedidos"><i class="fa-solid fa-rotate"></i> Atualizar</button>
+        </div>
+        <p class="admin-desc">Cada vez que um cliente toca em "Agendar este Trajeto" no site, o pedido aparece aqui. Confirme e conclua para acompanhar seus ganhos.</p>
+
+        <div class="chips-filtro" role="group" aria-label="Filtrar pedidos">
+          <button type="button" class="chip-filtro active" data-filtro="aberto" aria-pressed="true">Em aberto</button>
+          <button type="button" class="chip-filtro" data-filtro="concluido" aria-pressed="false">Concluídos</button>
+          <button type="button" class="chip-filtro" data-filtro="cancelado" aria-pressed="false">Cancelados</button>
+          <button type="button" class="chip-filtro" data-filtro="todos" aria-pressed="false">Todos</button>
+        </div>
+
+        <div id="listaPedidos"></div>
+        <div class="msg" id="msgPedidos" role="status"></div>
+      </div>
+    </div>
+
+    <!-- ============ 2. AGENDA ============ -->
+    <div id="tabAgenda" class="admin-tab-content hidden" role="tabpanel">
+      <div class="glass-card" id="dispStatusCard">
+        <h2 class="section-title"><i class="fa-solid fa-calendar-check"></i> Disponibilidade</h2>
+        <p class="admin-desc">Com a agenda fechada, o site mostra "Agenda fechada" e o botão de agendar fica bloqueado.</p>
+
+        <label class="switch-grande">
+          <input type="checkbox" id="dispAberta" role="switch">
+          <span class="switch-trilho" aria-hidden="true"><span class="switch-bola"></span></span>
+          <span id="dispRotulo">Agenda aberta</span>
+        </label>
+
+        <div class="field" style="margin-top: 16px;">
+          <label for="dispMensagem">Mensagem quando estiver fechada (opcional)</label>
+          <input type="text" id="dispMensagem" maxlength="140" placeholder="Ex.: Voltamos a atender dia 10/11.">
+        </div>
+
+        <button type="button" class="btn-main" id="btnSalvarDisp">Salvar agenda</button>
+        <div class="msg" id="msgDisp" role="status"></div>
+      </div>
+
+      <div class="glass-card">
+        <h2 class="section-title"><i class="fa-solid fa-ban"></i> Datas bloqueadas</h2>
+        <p class="admin-desc">Dias em que você não atende. O cliente não consegue agendar nessas datas.</p>
+
+        <button type="button" class="btn-grande btn-perigo-suave" id="btnFecharHoje">
+          <i class="fa-solid fa-moon"></i> Indisponível hoje
+        </button>
+
+        <div class="linha-data">
+          <label for="dispNovaData" class="sr-only">Escolher data para bloquear</label>
+          <input type="date" id="dispNovaData">
+          <button type="button" class="btn-sec" id="btnBloquearData">Bloquear</button>
+        </div>
+
+        <div id="listaDatasBloqueadas" class="chips-datas"></div>
+        <div class="msg" id="msgDatas" role="status"></div>
+      </div>
+
+      <div class="glass-card">
+        <h2 class="section-title"><i class="fa-solid fa-bullhorn"></i> Aviso no topo do site</h2>
+        <p class="admin-desc">Faixa amarela na página inicial (ex.: feriado, fronteira movimentada).</p>
+
+        <div class="field">
+          <label class="check-linha">
+            <input type="checkbox" id="avisoAtivo"> <span>Mostrar aviso no site</span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label for="avisoTexto">Texto do aviso</label>
+          <input type="text" id="avisoTexto" placeholder="Ex.: Agenda aberta para o feriado! Reserve com antecedência.">
+        </div>
+
+        <button type="button" class="btn-main" id="btnSalvarAviso">Salvar aviso</button>
+        <div class="msg" id="msgAviso" role="status"></div>
+      </div>
+    </div>
+
+    <!-- ============ 3. DESTINOS ============ -->
+    <div id="tabDestinos" class="admin-tab-content hidden" role="tabpanel">
+      <div class="glass-card">
+        <h2 class="section-title"><i class="fa-solid fa-list-check"></i> Seus destinos</h2>
+        <p class="admin-desc">Marque a <strong>estrela</strong> nos destinos que devem aparecer em destaque na página inicial e use as setas para mudar a ordem. Depois toque em <strong>Salvar</strong>.</p>
+
+        <div id="listaDestinosAdmin"></div>
+
+        <button type="button" class="btn-main" id="btnSalvarDestinos" style="margin-top: 15px;"><i class="fa-solid fa-floppy-disk"></i> Salvar alterações</button>
+        <div class="msg" id="msgDestinos" role="status"></div>
+      </div>
+
+      <div class="glass-card">
+        <h2 class="section-title"><i class="fa-solid fa-plus-circle"></i> Adicionar novo destino</h2>
+
+        <form id="formNovoDestino">
+          <div class="field">
+            <label for="novoTitulo">Título do destino</label>
+            <input type="text" id="novoTitulo" placeholder="Ex.: Bar de Gelo / Ice Bar" required>
+          </div>
+
+          <div class="field">
+            <label for="novoSub">Subtítulo / categoria</label>
+            <input type="text" id="novoSub" placeholder="Ex.: Experiência congelante em Foz" required>
+          </div>
+
+          <div class="field">
+            <label for="novoPreco">Preço base (R$)</label>
+            <input type="number" id="novoPreco" inputmode="decimal" placeholder="Ex.: 110" required>
+          </div>
+
+          <div class="field">
+            <label>Foto do destino</label>
+            <label class="custom-file-btn">
+              <i class="fa-solid fa-upload"></i> <span id="nomeArquivoNovo">Escolher foto...</span>
+              <input type="file" id="novoFotoInput" accept="image/*" required onchange="document.getElementById('nomeArquivoNovo').textContent = this.files[0] ? this.files[0].name : 'Escolher foto...'">
+            </label>
+          </div>
+
+          <div class="field">
+            <label for="novoDesc">Descrição detalhada</label>
+            <textarea id="novoDesc" rows="3" class="campo-texto" placeholder="Escreva a descrição atraente do passeio..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-main"><i class="fa-solid fa-floppy-disk"></i> Cadastrar destino</button>
+          <div class="msg" id="msgNovoDestino" role="status"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============ 4. FAQ ============ -->
+    <div id="tabFaq" class="admin-tab-content hidden" role="tabpanel">
+      <div class="glass-card">
+        <h2 class="section-title"><i class="fa-solid fa-circle-question"></i> Perguntas frequentes</h2>
+        <p class="admin-desc">Edite, reordene com as setas, adicione ou remova perguntas. Depois toque em <strong>Salvar</strong>.</p>
+
+        <div id="listaFaqAdmin"></div>
+
+        <button type="button" class="btn-grande btn-sec" id="btnAddFaq"><i class="fa-solid fa-plus"></i> Adicionar pergunta</button>
+        <button type="button" class="btn-main" id="btnSalvarFaq" style="margin-top: 12px;"><i class="fa-solid fa-floppy-disk"></i> Salvar FAQ</button>
+        <div class="msg" id="msgFaq" role="status"></div>
+      </div>
+
+      <div class="glass-card">
+        <h2 class="section-title"><i class="fa-solid fa-star"></i> Depoimentos</h2>
+        <p class="admin-desc">Avaliações reais dos seus passageiros, que aparecem na seção "O que dizem os passageiros". Peça autorização para publicar o nome. Depois toque em <strong>Salvar</strong>.</p>
+
+        <div id="listaDepoAdmin"></div>
+
+        <button type="button" class="btn-grande btn-sec" id="btnAddDepo"><i class="fa-solid fa-plus"></i> Adicionar depoimento</button>
+        <button type="button" class="btn-main" id="btnSalvarDepo" style="margin-top: 12px;"><i class="fa-solid fa-floppy-disk"></i> Salvar depoimentos</button>
+        <div class="msg" id="msgDepo" role="status"></div>
+      </div>
+    </div>
+
+    <!-- ============ 5. FOTOS ============ -->
+    <div id="tabGaleria" class="admin-tab-content hidden" role="tabpanel">
+      <div class="glass-card">
+        <h2 class="section-title"><i class="fa-solid fa-plus"></i> Adicionar fotos</h2>
+        <div class="field">
+          <input type="file" id="arquivos" accept="image/*" multiple hidden>
+          <label for="arquivos" class="dropzone" id="dropzone">
+            <span class="drop-icon"><i class="fa-solid fa-camera"></i></span>
+            <strong>Toque para escolher as fotos</strong>
+            <span id="dropInfo">Pode escolher várias de uma vez</span>
+          </label>
+          <div class="preview-grid" id="previewGrid"></div>
+        </div>
+        <div class="field">
+          <label for="legenda">Legenda (opcional)</label>
+          <input type="text" id="legenda" maxlength="60" placeholder="Ex.: Cataratas do Iguaçu">
+        </div>
+        <button type="button" class="btn-main" id="btnEnviar">Enviar fotos</button>
+        <div class="msg" id="msgUpload" role="status"></div>
+      </div>
+
+      <div class="glass-card">
+        <h2 class="section-title"><i class="fa-solid fa-folder-open"></i> Fotos na galeria</h2>
+        <div class="admin-grid" id="listaFotos"></div>
+      </div>
+    </div>
+
+    <!-- ============ 6. PERFIL ============ -->
+    <div id="tabConfig" class="admin-tab-content hidden" role="tabpanel">
+      <div class="glass-card">
+        <h2 class="section-title"><i class="fa-solid fa-id-card"></i> Motorista e veículo</h2>
+        <p class="admin-desc">Aparecem no topo do site e no pop-up "Dados do Veículo e Motorista". Mudou de carro ou de foto? É só trocar aqui.</p>
+
+        <div class="fotos-perfil">
+          <div class="foto-perfil">
+            <img id="perfFotoMotoristaImg" src="" alt="Foto atual do motorista">
+            <label class="custom-file-btn">
+              <i class="fa-solid fa-camera"></i> <span class="nome-arquivo">Trocar foto do motorista</span>
+              <input type="file" id="perfFotoMotoristaInput" accept="image/*">
+            </label>
+          </div>
+          <div class="foto-perfil">
+            <img id="perfFotoVeiculoImg" src="" alt="Foto atual do veículo">
+            <label class="custom-file-btn">
+              <i class="fa-solid fa-car-side"></i> <span class="nome-arquivo">Trocar foto do carro</span>
+              <input type="file" id="perfFotoVeiculoInput" accept="image/*">
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="perfNome">Nome</label>
+          <input type="text" id="perfNome" maxlength="60" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="perfSubtitulo">Subtítulo (embaixo do nome)</label>
+          <input type="text" id="perfSubtitulo" maxlength="80" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="perfModelo">Modelo do carro</label>
+          <input type="text" id="perfModelo" maxlength="60" placeholder="Ex.: Chevrolet Onix Sedan" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="perfCapacidade">Quantas pessoas cabem no carro</label>
+          <select id="perfCapacidade" class="campo-select"></select>
+        </div>
+
+        <div class="field">
+          <label for="perfBase">Base de atendimento</label>
+          <input type="text" id="perfBase" maxlength="80" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="perfSeguranca">Texto de segurança do veículo</label>
+          <input type="text" id="perfSeguranca" maxlength="80" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <h2 class="section-title"><i class="fa-solid fa-address-book"></i> Contato e Pix</h2>
+        <p class="admin-desc">O WhatsApp abaixo é usado em todos os botões do site.</p>
+
+        <div class="field">
+          <label for="perfWhatsApp">WhatsApp (com DDD)</label>
+          <input type="text" id="perfWhatsApp" inputmode="numeric" placeholder="Ex.: 45 99942-5652" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="perfPix">Chave Pix (só para o seu controle, não aparece no site)</label>
+          <input type="text" id="perfPix" placeholder="E-mail, telefone ou CPF" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="perfAvaliacao">Link para avaliação no Google (usado na mensagem "Pedir avaliação")</label>
+          <input type="url" id="perfAvaliacao" placeholder="https://g.page/r/..." autocomplete="off" inputmode="url">
+        </div>
+
+        <button type="button" class="btn-main" id="btnSalvarPerfil"><i class="fa-solid fa-floppy-disk"></i> Salvar perfil</button>
+        <div class="msg" id="msgPerfil" role="status"></div>
+      </div>
+
+      <!-- Fundo animado do site -->
+      <div class="glass-card" id="cartaoFundo">
+        <h2 class="section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Fundo animado do site</h2>
+        <p class="admin-desc">Escolha o estilo e a cor do fundo que se mexe atrás do site. Toque em <strong>Salvar fundo</strong> para publicar. Fundos animados gastam um pouco mais de bateria; o <strong>Liso</strong> é o mais econômico.</p>
+
+        <div class="fundo-mini grande rodando" id="fundoPrevia" aria-hidden="true"></div>
+        <p class="fundo-nota" id="fundoNota" hidden>Na prévia, "Partículas" aparece simplificado. No site real elas são interativas (reagem ao toque).</p>
+
+        <fieldset class="grupo-radio">
+          <legend>Estilo</legend>
+          <div class="grade-fundos" id="gradeEstilos"></div>
+          <button type="button" class="btn-ver-mais-fundos" id="btnMaisFundos" aria-expanded="false" aria-controls="gradeEstilos">
+            <span id="btnMaisFundosTxt">Ver mais fundos</span>
+            <i class="fa-solid fa-chevron-down seta" aria-hidden="true"></i>
+          </button>
+        </fieldset>
+
+        <fieldset class="grupo-radio">
+          <legend>Cor</legend>
+          <div class="linha-cores" id="linhaCores"></div>
+        </fieldset>
+
+        <button type="button" class="btn-main" id="btnSalvarFundo"><i class="fa-solid fa-floppy-disk"></i> Salvar fundo</button>
+        <div class="msg" id="msgFundo" role="status"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="site-config.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="fundos.js"></script>
+  <script src="admin.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+    }
+  </script>
+</body>
+
+</html>
