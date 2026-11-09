@@ -229,7 +229,7 @@ if (btnEnv) {
       msg('msgUpload', `Enviando ${i + 1} de ${arquivos.length}...`);
 
       const { blob, ext, tipo } = await prepararImagem(arquivos[i]);
-      const aleatorio = Math.random().toString(36).slice(2, 6);
+      const aleatorio = Array.from(crypto.getRandomValues(new Uint8Array(4)), (b) => (b % 36).toString(36)).join('');
       const nome = `${Date.now()}_${aleatorio}${sufixo}.${ext}`;
 
       const { error } = await db.storage.from(SUPABASE_BUCKET).upload(nome, blob, {
@@ -823,7 +823,7 @@ async function salvarDestinos(textoOk) {
     const fileInput = item.querySelector('.input-destino-file');
     if (fileInput && fileInput.files.length > 0) {
       const { blob, ext, tipo } = await prepararImagem(fileInput.files[0]);
-      const nomeArquivo = `destino_${Date.now()}_${Math.random().toString(36).slice(2, 6)}.${ext}`;
+      const nomeArquivo = `destino_${Date.now()}_${Array.from(crypto.getRandomValues(new Uint8Array(4)), (b) => (b % 36).toString(36)).join('')}.${ext}`;
       const { error } = await db.storage.from(SUPABASE_BUCKET).upload(nomeArquivo, blob, {
         contentType: tipo, cacheControl: '31536000', upsert: false
       });

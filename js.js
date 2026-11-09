@@ -972,7 +972,7 @@ async function carregarDestinosDinamicos() {
 
     if (data && data.content && Array.isArray(data.content) && data.content.length > 0) {
       PONTOS_TURISTICOS = data.content.map(d => ({
-        id: String(d.id || ('dest_' + Math.random().toString(36).slice(2))).replace(/[^\w-]/g, ''),
+        id: String(d.id || ('dest_' + Array.from(crypto.getRandomValues(new Uint8Array(8)), (b) => (b % 36).toString(36)).join(''))).replace(/[^\w-]/g, ''),
         titulo: d.titulo,
         sub: d.sub || 'Passeio Privativo em Foz',
         preco: Math.min(100000, Math.max(0, Number(d.preco) || 0)),  // nunca negativo nem absurdo, mesmo que o banco esteja errado
