@@ -112,4 +112,4 @@ A chave pública (`sb_publishable_...`) aparece no código do site e qualquer pe
   podem ser enviados, mas não impede script inline. Os textos vindos do banco já são escapados no código.
 
 ## Bibliotecas hospedadas no próprio site (`vendor/`)
-Supabase JS, SweetAlert2 e particles.js ficam na pasta `vendor/` (sem CDN, então não há risco de a CDN ser alterada e o aviso "missing-integrity" some). Ao copiar o site para um cliente, leve a pasta `vendor/` junto. Font Awesome e Google Fonts ainda vêm de CDN.
+Supabase JS, SweetAlert2 e particles.js ficam na pasta `vendor/` (sem CDN, então não há risco de a CDN ser alterada e o aviso "missing-integrity" some). Ao copiar o site para um cliente, leve a pasta `vendor/` junto. Font Awesome também (`vendor/fontawesome/`). Só o Google Fonts (Inter) ainda vem de CDN.
