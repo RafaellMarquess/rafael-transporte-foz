@@ -8,3 +8,7 @@
 # O service worker nunca fica em cache: as atualizações do site chegam na hora
 /sw.js
   Cache-Control: no-cache
+
+# Painel admin: nunca aparece no Google
+/admin.html
+  X-Robots-Tag: noindex, nofollow
