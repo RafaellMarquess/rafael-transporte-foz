@@ -20,7 +20,7 @@ const UI = {
     ateN: 'Até {n} Pessoas',
     verTodos: 'Ver todos os destinos ({n})',
     menos: 'Mostrar menos',
-    titulo: '{nome} - Motorista Particular & Transfers',
+    titulo: 'Transfer e Motorista Particular em Foz do Iguaçu | {nome}',
     msgTopo: 'Olá {nome}! Gostaria de solicitar um orçamento de corrida.'
   },
   en: {
@@ -30,7 +30,7 @@ const UI = {
     ateN: 'Up to {n} People',
     verTodos: 'See all destinations ({n})',
     menos: 'Show less',
-    titulo: '{nome} - Private Driver & Transfers',
+    titulo: 'Private Driver & Transfers in Foz do Iguaçu | {nome}',
     msgTopo: 'Hello {nome}! I would like to request a ride quote.'
   },
   es: {
@@ -40,7 +40,7 @@ const UI = {
     ateN: 'Hasta {n} Personas',
     verTodos: 'Ver todos los destinos ({n})',
     menos: 'Mostrar menos',
-    titulo: '{nome} - Conductor Privado y Traslados',
+    titulo: 'Conductor Privado y Traslados en Foz do Iguaçu | {nome}',
     msgTopo: '¡Hola {nome}! Me gustaría solicitar un presupuesto de viaje.'
   }
 };

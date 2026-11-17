@@ -113,3 +113,6 @@ A chave pública (`sb_publishable_...`) aparece no código do site e qualquer pe
 
 ## Bibliotecas hospedadas no próprio site (`vendor/`)
 Supabase JS, SweetAlert2 e particles.js ficam na pasta `vendor/` (sem CDN, então não há risco de a CDN ser alterada e o aviso "missing-integrity" some). Ao copiar o site para um cliente, leve a pasta `vendor/` junto. Font Awesome também (`vendor/fontawesome/`). Só o Google Fonts (Inter) ainda vem de CDN.
+
+## SEO ao publicar (por cliente)
+Edite para o cliente: `robots.txt` e `sitemap.xml` (endereço do site), `llms.txt` (texto do serviço), o bloco `ld+json` e o `<title>` no `index.html`, e a cidade nas três linhas `titulo:` do `i18n.js`. Depois cadastre o site no Google Search Console, envie o `sitemap.xml` e crie/verifique o Perfil de Empresa no Google (Meu Negócio).
